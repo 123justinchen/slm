@@ -1,4 +1,20 @@
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  
+%  Copyright (C) 2020 HOLOEYE Photonics AG. All rights reserved.
+%  Contact: https://holoeye.com/contact/
+%  
+%  This file is part of HOLOEYE SLM Display SDK.
+%  
+%  You may use this file under the terms and conditions of the
+%  "HOLOEYE SLM Display SDK Standard License v1.0" license agreement.
+%  
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+% Uses the built-in blank screen function to show a given grayscale value on the full SLM.
+% Then we use the beam manipulation provided through the data handles to apply a phase overlay (tip/tilt/lens/offset).
 
+% Import SDK:
 add_heds_path;
 
 % Check if the installed SDK supports the required API version
@@ -9,33 +25,23 @@ heds_types;
 
 % Detect SLMs and open a window on the selected SLM:
 heds_slm_init;
- 
+
 % Open the SLM preview window (might have an impact on performance):
 show_slm_preview(1.0);
 
-% Configure the blank screen where overlay is applied to:128
-<<<<<<< HEAD
-grayValue = 50;
-grayValueOffset = -50; % this value is applied also as a beam manipulation later.
-=======
+% Configure the blank screen where overlay is applied to:
 grayValue = 128;
 grayValueOffset = -128; % this value is applied also as a beam manipulation later.
->>>>>>> cebb05d (1)
 
 % Configure beam manipulation in physical units:
 wavelength_nm = 780.0;  % wavelength of incident laser light
 
-<<<<<<< HEAD
-
-steering_angle_x_deg = 1;
-steering_angle_y_deg = 1;
-=======
-p=1;
+p=0.5;
 
 steering_angle_x_deg = p;
 steering_angle_y_deg = p;
->>>>>>> cebb05d (1)
-focal_length_mm = 600.0;
+
+focal_length_mm = 300.0;
 
 % Upload a datafield into the GPU. The datafield just consists of a single pixel with the grayValue and will
 % automatically be extended into full SLM screen due to "PresetAutomatic" show flag.
@@ -48,24 +54,14 @@ heds_datahandle_waitfor(handle.id, heds_state.ReadyToRender);
 % Make the data without overlay visible on SLM screen:
 heds_show_datahandle(handle.id);
 
-<<<<<<< HEAD
-fprintf("aaa");
-=======
->>>>>>> cebb05d (1)
-
 % Wait 2 seconds until we apply the beam manipulation to make the uploaded data visible first:
 heds_utils_wait_s(2.0);
 
-% t=0:0.1:2.01*pi;
-for f=1:1
-%     focal_length_mm = focal_length_mm - 200;
-    % grayValue变量
-    % 半径变量
-<<<<<<< HEAD
-    for t=0:0.1:2.01*pi
-=======
-    for t=0:0.4:2.01*pi
->>>>>>> cebb05d (1)
+
+
+for f=1:20
+
+    for t=0:0.05:2.01*pi
         steering_angle_x_deg1 = 0 + steering_angle_x_deg*cos(t);
         steering_angle_y_deg1 = 0 + steering_angle_y_deg*sin(t);
             
@@ -73,19 +69,7 @@ for f=1:1
         beam_lens_param = heds_utils_beam_lens_from_focal_length_mm(wavelength_nm, focal_length_mm);
         beam_steer_x_param = heds_utils_beam_steer_from_angle_deg(wavelength_nm, steering_angle_x_deg1);
         beam_steer_y_param = heds_utils_beam_steer_from_angle_deg(wavelength_nm, steering_angle_y_deg1);
-        
-<<<<<<< HEAD
-        disp(['beam_steer_x_param = ', num2str(beam_steer_x_param), ' ==> steering angle x = ', num2str(heds_utils_beam_steer_to_angle_deg(wavelength_nm, beam_steer_x_param)), ' deg']);
-        disp(['beam_steer_y_param = ', num2str(beam_steer_y_param), ' ==> steering angle y = ', num2str(heds_utils_beam_steer_to_angle_deg(wavelength_nm, beam_steer_y_param)), ' deg']);
-        disp(['beam_lens_param = ', num2str(beam_lens_param), ' ==> f = ', num2str(heds_utils_beam_lens_to_focal_length_mm(wavelength_nm, beam_lens_param)), ' mm']);
-        
-=======
-%         disp(['beam_steer_x_param = ', num2str(beam_steer_x_param), ' ==> steering angle x = ', num2str(heds_utils_beam_steer_to_angle_deg(wavelength_nm, beam_steer_x_param)), ' deg']);
-%         disp(['beam_steer_y_param = ', num2str(beam_steer_y_param), ' ==> steering angle y = ', num2str(heds_utils_beam_steer_to_angle_deg(wavelength_nm, beam_steer_y_param)), ' deg']);
-%         disp(['beam_lens_param = ', num2str(beam_lens_param), ' ==> f = ', num2str(heds_utils_beam_lens_to_focal_length_mm(wavelength_nm, beam_lens_param)), ' mm']);
-%         
->>>>>>> cebb05d (1)
-        
+
         % Now, after heds_load_data(), we apply values to the beam manipulation parameters of the handle:
         handle.beamSteerX = beam_steer_x_param;
         handle.beamSteerY = beam_steer_y_param;
@@ -101,22 +85,14 @@ for f=1:1
         % Of course we also can apply the parameters before showing the handle on screen.
         % We explicitly pass which values to apply by using the "heds_datahandle_applyvalue" flags:
         heds_datahandle_apply(handle, heds_datahandle_applyvalue.BeamManipulation + heds_datahandle_applyvalue.ValueOffset);
-        
+        heds_utils_wait_ms(150);
         % Now the data should have changed by our beam manipulations.
-<<<<<<< HEAD
-        heds_utils_wait_ms(1000);
-     
     end
-end
-
-=======
-        heds_utils_wait_ms(500);
-        
-     
-    end
+    focal_length_mm = focal_length_mm +10;
 end
 heds_show_phasevalues(128);
->>>>>>> cebb05d (1)
+
+
 
 % Please uncomment to close SDK at the end:
 % heds_utils_wait_s(8.0);
