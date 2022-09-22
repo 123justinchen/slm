@@ -49,7 +49,7 @@ heds_utils_wait_s(2.0);
 handle.transformShiftX = heds_slm_width_px/4;
 handle.transformShiftY = heds_slm_height_px/4;
 handle.transformScale = .5;
-
+ 
 % Apply the transform values from the handle structure to the SLM Display SDK.
 % This will take effect on SLM screen directly, because we made the handle visible before applying values.
 % Of course we also can apply the parameters before showing the handle on screen.
