@@ -20,7 +20,7 @@ grayValueOffset = -128; % this value is applied also as a beam manipulation late
 % Configure beam manipulation in physical units:
 wavelength_nm = 780.0;  % wavelength of incident laser light
 
-p=0.7;
+p=0.8;
 
         steering_angle_x_deg = p;
         steering_angle_y_deg = p;
@@ -71,8 +71,8 @@ heds_utils_wait_s(2.0);
             % This will take effect on SLM screen directly, because we made the handle visible before applying values.
             % Of course we also can apply the parameters before showing the handle on screen.
             % We explicitly pass which values to apply by using the "heds_datahandle_applyvalue" flags:
-            handle.transformShiftX = -35;
-            handle.transformShiftY = 30;
+            handle.transformShiftX = -80;
+            handle.transformShiftY = -20;
             %handle.transformScale = .5;
 
 

@@ -20,7 +20,6 @@ add_heds_path;
 % Check if the installed SDK supports the required API version
 heds_requires_version(3);
 
-
 % Make some enumerations available locally to avoid too much code:
 heds_types;
 
@@ -41,7 +40,7 @@ p=0.8;
 
 
 
-focal_length_mm = 300.0;
+focal_length_mm = 600.0;
 
 % Upload a datafield into the GPU. The datafield just consists of a single pixel with the grayValue and will
 % automatically be extended into full SLM screen due to "PresetAutomatic" show flag.
@@ -57,11 +56,11 @@ heds_show_datahandle(handle.id);
 % Wait 2 seconds until we apply the beam manipulation to make the uploaded data visible first:
 heds_utils_wait_s(2.0);
 
-l = 0.01;
+l = 0.1;
 
-for f=1:70
+for f=1:3
     f 
-    for u=0:6
+    for u=0:5
         u
         steering_angle_x_deg = p-l*u;
         steering_angle_y_deg = p-l*u;
@@ -97,7 +96,7 @@ for f=1:70
        
         
     end
-    focal_length_mm = focal_length_mm +5;
+    focal_length_mm = focal_length_mm +6;
 end
 heds_show_phasevalues(128);
 
