@@ -48,7 +48,7 @@ heds_utils_wait_s(2.0);
 %         steering_angle_x_deg = p-0.03*u;
 %         steering_angle_y_deg = p-0.03*u;
 
-        for t=0:0.01:2.01*pi
+        for t=0:0.1:2.01*pi
             steering_angle_x_deg1 = 0 + steering_angle_x_deg*cos(t);
             steering_angle_y_deg1 = 0 + steering_angle_y_deg*sin(t);
                 
@@ -71,7 +71,7 @@ heds_utils_wait_s(2.0);
             % This will take effect on SLM screen directly, because we made the handle visible before applying values.
             % Of course we also can apply the parameters before showing the handle on screen.
             % We explicitly pass which values to apply by using the "heds_datahandle_applyvalue" flags:
-            handle.transformShiftX = -80;
+            handle.transformShiftX = -5;
             handle.transformShiftY = -20;
             %handle.transformScale = .5;
 

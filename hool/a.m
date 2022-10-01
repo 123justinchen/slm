@@ -57,16 +57,16 @@ heds_show_datahandle(handle.id);
 % Wait 2 seconds until we apply the beam manipulation to make the uploaded data visible first:
 heds_utils_wait_s(2.0);
 
-l = 0.01;
+l = 0.02;
 
-for f=1:70
+for f=1:60
     f 
     for u=0:6
         u
         steering_angle_x_deg = p-l*u;
         steering_angle_y_deg = p-l*u;
 
-        for t=0:0.02:2.01*pi
+        for t=0:0.01:2.01*pi
             steering_angle_x_deg1 = 0 + steering_angle_x_deg*cos(t);
             steering_angle_y_deg1 = 0 + steering_angle_y_deg*sin(t);
                 
@@ -84,20 +84,20 @@ for f=1:70
             % Both ranges typically translate to a phase shift in range [0 rad, (255/256)*2pi rad] due to the phase calibration
             % of the SLM and to make the addressed phase values periodic, i.e. gray value 256 must equal gray value 0.
             handle.valueOffset = grayValueOffset/255;
-            handle.transformShiftX = -80;
+            handle.transformShiftX = -5;
             handle.transformShiftY = -20;
             % Apply the beam steering values from the handle structure to the SLM Display SDK.
             % This will take effect on SLM screen directly, because we made the handle visible before applying values.
             % Of course we also can apply the parameters before showing the handle on screen.
             % We explicitly pass which values to apply by using the "heds_datahandle_applyvalue" flags:
             heds_datahandle_apply(handle, heds_datahandle_applyvalue.BeamManipulation + heds_datahandle_applyvalue.ValueOffset + heds_datahandle_applyvalue.Transform);
-            heds_utils_wait_ms(100);
+            heds_utils_wait_ms(80);
             % Now the data should have changed by our beam manipulations.
         end
        
         
     end
-    focal_length_mm = focal_length_mm +5;
+    focal_length_mm = focal_length_mm +10;
 end
 heds_show_phasevalues(128);
 
