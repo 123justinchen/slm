@@ -41,7 +41,7 @@ p=0.8;
 
 
 
-focal_length_mm = 300.0;
+focal_length_mm = 330.0;
 
 % Upload a datafield into the GPU. The datafield just consists of a single pixel with the grayValue and will
 % automatically be extended into full SLM screen due to "PresetAutomatic" show flag.
@@ -57,9 +57,9 @@ heds_show_datahandle(handle.id);
 % Wait 2 seconds until we apply the beam manipulation to make the uploaded data visible first:
 heds_utils_wait_s(2.0);
 
-l = 0.02;
+l = 0.02;%同心环的间隔
 
-for f=1:60
+for f=1:28
     f 
     for u=0:6
         u
@@ -84,8 +84,8 @@ for f=1:60
             % Both ranges typically translate to a phase shift in range [0 rad, (255/256)*2pi rad] due to the phase calibration
             % of the SLM and to make the addressed phase values periodic, i.e. gray value 256 must equal gray value 0.
             handle.valueOffset = grayValueOffset/255;
-            handle.transformShiftX = -5;
-            handle.transformShiftY = -20;
+%             handle.transformShiftX = -5;
+            %handle.transformShiftY = -20;
             % Apply the beam steering values from the handle structure to the SLM Display SDK.
             % This will take effect on SLM screen directly, because we made the handle visible before applying values.
             % Of course we also can apply the parameters before showing the handle on screen.

@@ -1,8 +1,25 @@
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  
+%  Copyright (C) 2020 HOLOEYE Photonics AG. All rights reserved.
+%  Contact: https://holoeye.com/contact/
+%  
+%  This file is part of HOLOEYE SLM Display SDK.
+%  
+%  You may use this file under the terms and conditions of the
+%  "HOLOEYE SLM Display SDK Standard License v1.0" license agreement.
+%  
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+% Uses the built-in blank screen function to show a given grayscale value on the full SLM.
+% Then we use the beam manipulation provided through the data handles to apply a phase overlay (tip/tilt/lens/offset).
 
+% Import SDK:
 add_heds_path;
 
 % Check if the installed SDK supports the required API version
 heds_requires_version(3);
+
 
 % Make some enumerations available locally to avoid too much code:
 heds_types;
@@ -22,8 +39,7 @@ wavelength_nm = 780.0;  % wavelength of incident laser light
 
 p=0.8;
 
-        steering_angle_x_deg = p;
-        steering_angle_y_deg = p;
+
 
 focal_length_mm = 330.0;
 
@@ -41,14 +57,16 @@ heds_show_datahandle(handle.id);
 % Wait 2 seconds until we apply the beam manipulation to make the uploaded data visible first:
 heds_utils_wait_s(2.0);
 
+l = 0.02;%同心环的间隔
 
+for f=1:28
+    f 
+    for u=0:6
+        u
+        steering_angle_x_deg = p-l*u;
+        steering_angle_y_deg = p-l*u;
 
-% for f=1:30
-%     for u=0:2
-%         steering_angle_x_deg = p-0.03*u;
-%         steering_angle_y_deg = p-0.03*u;
-
-        for t=0:0.1:2.01*pi
+        for t=0:0.01:2.01*pi
             steering_angle_x_deg1 = 0 + steering_angle_x_deg*cos(t);
             steering_angle_y_deg1 = 0 + steering_angle_y_deg*sin(t);
                 
@@ -66,26 +84,22 @@ heds_utils_wait_s(2.0);
             % Both ranges typically translate to a phase shift in range [0 rad, (255/256)*2pi rad] due to the phase calibration
             % of the SLM and to make the addressed phase values periodic, i.e. gray value 256 must equal gray value 0.
             handle.valueOffset = grayValueOffset/255;
-            
+%             handle.transformShiftX = -5;
+            %handle.transformShiftY = -20;
             % Apply the beam steering values from the handle structure to the SLM Display SDK.
             % This will take effect on SLM screen directly, because we made the handle visible before applying values.
             % Of course we also can apply the parameters before showing the handle on screen.
             % We explicitly pass which values to apply by using the "heds_datahandle_applyvalue" flags:
-%             handle.transformShiftX = -5;
-%             handle.transformShiftY = -20;
-            %handle.transformScale = .5;
-
-
-
             heds_datahandle_apply(handle, heds_datahandle_applyvalue.BeamManipulation + heds_datahandle_applyvalue.ValueOffset + heds_datahandle_applyvalue.Transform);
-            heds_utils_wait_ms(200);
+            heds_utils_wait_ms(80);
             % Now the data should have changed by our beam manipulations.
         end
        
         
-%     end
-%     focal_length_mm = focal_length_mm +10;
-% end
+    end
+    focal_length_mm = focal_length_mm +10;
+    p=p+0.005;  %0.007  0.005  0.003 0.001
+end
 heds_show_phasevalues(128);
 
 
