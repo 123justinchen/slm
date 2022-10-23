@@ -25,7 +25,7 @@ p=0.8;
         steering_angle_x_deg = p;
         steering_angle_y_deg = p;
 
-focal_length_mm = 330.0;
+focal_length_mm = 300.0;
 
 % Upload a datafield into the GPU. The datafield just consists of a single pixel with the grayValue and will
 % automatically be extended into full SLM screen due to "PresetAutomatic" show flag.
@@ -48,7 +48,7 @@ heds_utils_wait_s(2.0);
 %         steering_angle_x_deg = p-0.03*u;
 %         steering_angle_y_deg = p-0.03*u;
 
-        for t=0:0.1:2.01*pi
+        for t=0:0.01:2.2*pi
             steering_angle_x_deg1 = 0 + steering_angle_x_deg*cos(t);
             steering_angle_y_deg1 = 0 + steering_angle_y_deg*sin(t);
                 
@@ -78,7 +78,7 @@ heds_utils_wait_s(2.0);
 
 
             heds_datahandle_apply(handle, heds_datahandle_applyvalue.BeamManipulation + heds_datahandle_applyvalue.ValueOffset + heds_datahandle_applyvalue.Transform);
-            heds_utils_wait_ms(200);
+            heds_utils_wait_ms(100);
             % Now the data should have changed by our beam manipulations.
         end
        
