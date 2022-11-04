@@ -37,11 +37,11 @@ grayValueOffset = -128; % this value is applied also as a beam manipulation late
 % Configure beam manipulation in physical units:
 wavelength_nm = 780.0;  % wavelength of incident laser light
 
-p=0.4;
+p=0.6;
 
 
 
-focal_length_mm = 320.0;
+focal_length_mm = 210.0;
 
 % Upload a datafield into the GPU. The datafield just consists of a single pixel with the grayValue and will
 % automatically be extended into full SLM screen due to "PresetAutomatic" show flag.
@@ -59,9 +59,9 @@ heds_utils_wait_s(2.0);
 
 l = 0.02;%同心环的间隔
 
-for f=1:20
+for f=1:10
     f 
-    for u=0:5
+    for u=1:4
         u
         steering_angle_x_deg = p-l*u;
         steering_angle_y_deg = p-l*u;
@@ -97,7 +97,7 @@ for f=1:20
        
         
     end
-    focal_length_mm = focal_length_mm +14;
+    focal_length_mm = focal_length_mm +10;
 end
 
 

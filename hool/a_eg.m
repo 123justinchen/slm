@@ -25,7 +25,7 @@ p=0.5;
         steering_angle_x_deg = p;
         steering_angle_y_deg = p;
 
-focal_length_mm = 600.0;
+focal_length_mm = 320.0;
 
 % Upload a datafield into the GPU. The datafield just consists of a single pixel with the grayValue and will
 % automatically be extended into full SLM screen due to "PresetAutomatic" show flag.
